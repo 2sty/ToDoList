@@ -69,6 +69,19 @@ app.get("/", function(req, res) {
   });
 
 });
+app.post("/delete", function(req,res){
+  const checkedItemId = req.body.checkbox;
+
+  Item.findByIdAndRemove(checkedItemId, function(err){
+    if(err){
+      console.log(err);
+    }
+    else{
+      console.log("Item has been removed.");
+      res.redirect("/");
+    }
+  })
+})
 app.post("/", function(req, res) {
   const itemName = req.body.newItem;
     const item = new Item({
