@@ -1,8 +1,16 @@
+@font-face {
+    font-family: 'arkhipregular';
+    src: url('../fonts/arkhip-regular-webfont.woff2') format('woff2'),
+         url('../fonts/arkhip-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
 html {
   background-color: #E4E9FD;
   background-image: -webkit-linear-gradient(65deg, #383e56 50%, #f69e7b 50%);
   min-height: 1000px;
-  font-family: 'helvetica neue';
+  font-family: 'arkhipregular';
 }
 
 h1 {
