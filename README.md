@@ -1,2 +1,6 @@
 # ToDoList
-Simply todolist using ejs 
+Simply todolist
+---
+Used technologies:
+css, html, js, ejs, node.js, mongoose, express.js,
+
