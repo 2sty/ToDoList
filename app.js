@@ -1,11 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const config = require(__dirname + "/config.js");
 const _ = require("lodash");
 
 const app = express();
 
-
+console.log(config.getConfig().username);
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -13,7 +14,7 @@ app.use(express.static("public"));
 
 app.set('view engine', 'ejs');
 
-mongoose.connect("mongodb://localhost:27017/todolistDB", {
+mongoose.connect("mongodb+srv://" + config.getConfig().username + ":" + config.getConfig().password +"@cluster0.egkho.mongodb.net/todolistDB?retryWrites=true&w=majority", {
   useNewUrlParser: true, useUnifiedTopology: true
 });
 mongoose.set('useFindAndModify', false);
@@ -36,6 +37,13 @@ const item3 = new Item({
 });
 
 const defaultItems = [item1,item2,item3]
+
+const listSchema = new mongoose.Schema({
+  name: String,
+  items:[itemsSchema]
+});
+
+const List = mongoose.model("List", listSchema);
 
 Item.find({}, function(err){
   if(err){
@@ -71,40 +79,30 @@ app.get("/", function(req, res) {
   });
 
 });
-
 app.get("/:customList", function(req,res){
   const customList = _.capitalize(req.params.customList);
-
-
-  List.findOne({name:customList}, function(err,foundList){
-    if(!err){
-      if(!foundList){
-        //Create a new list
-        const list = new List({
-            name: customList,
-            items: defaultItems
-        });
-        list.save();
-        res.redirect("/" + customList);
-      }else{
-        //Show an existing list
-        res.render("list", {
-          listTitle: foundList.name,
-          newListItems: foundList.items
-        })
+  if(customList != "Favicon.ico"){
+    List.findOne({name:customList}, function(err,foundList){
+      if(!err){
+        if(!foundList){
+          //Create a new list
+          const list = new List({
+              name: customList,
+              items: defaultItems
+          });
+          list.save();
+          res.redirect("/" + customList);
+        }else{
+          //Show an existing list
+          res.render("list", {
+            listTitle: foundList.name,
+            newListItems: foundList.items
+          })
+        }
       }
-    }
-  });
-
-
+    });
+  }
 });
-
-const listSchema = new mongoose.Schema({
-  name: String,
-  items:[itemsSchema]
-});
-
-const List = mongoose.model("List", listSchema);
 
 app.post("/delete", function(req,res){
   const checkedItemId = req.body.checkbox;
