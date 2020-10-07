@@ -6,7 +6,6 @@ const _ = require("lodash");
 
 const app = express();
 
-console.log(config.getConfig().username);
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -14,7 +13,7 @@ app.use(express.static("public"));
 
 app.set('view engine', 'ejs');
 
-mongoose.connect("mongodb+srv://" + config.getConfig().username + ":" + config.getConfig().password +"@cluster0.egkho.mongodb.net/todolistDB?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://" + config.getConfig().username + ":" + config.getConfig().password + config.getConfig().db, {
   useNewUrlParser: true, useUnifiedTopology: true
 });
 mongoose.set('useFindAndModify', false);
@@ -138,12 +137,17 @@ app.post("/", function(req, res) {
       List.findOne({name:listName}, function(err, foundList){
         foundList.items.push(item);
         foundList.save();
-        res.redirect("/"+listName);5
+        res.redirect("/"+listName);
       })
     }
 
 
 });
-app.listen(3000, function() {
-  console.log("Starting on port 3000!");
+
+let port = process.env.PORT;
+if(port== null || port = "") {
+  port = 3000;
+}
+app.listen(port, function() {
+  console.log("Server has started!");
 })
