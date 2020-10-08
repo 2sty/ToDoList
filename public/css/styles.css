@@ -7,9 +7,8 @@
 
 }
 html {
-  background-color: #E4E9FD;
-  background-image: -webkit-linear-gradient(65deg, #383e56 50%, #f69e7b 50%);
-  min-height: 1000px;
+  background-color: white;
+  min-height: 100%;
   font-family: 'Epilogue';
 }
 
@@ -21,13 +20,12 @@ h1 {
 .box {
   max-width: 400px;
   margin: 50px auto;
-  background: white;
-  box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
+  background: #fff;
+  box-shadow: 5px 5px 20px -1px rgba(0, 0, 0, 0.4);
 }
 
 #heading {
-  background-color: #383e56;
+  background-color: #262626;
   text-align: center;
 }
 
