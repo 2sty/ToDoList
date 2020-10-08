@@ -66,21 +66,18 @@ form.item {
 }
 
 button {
-  min-height: 50px;
-  width: 50px;
   border-color: transparent;
-  background-color: #383e56;
-  color: #fff;
+  background-color: #fff;
+  color: #383e56;
   font-size: 30px;
   border-width: 0;
-  border-radius: 10px;
 }
 button[type="button"]{
   margin-right: 0;
 }
 button:hover{
   cursor: pointer;
-  background-color: #586187;
+  color: #586187;
 }
 
 input[type="text"] {

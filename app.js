@@ -125,7 +125,7 @@ app.post("/delete", function(req,res){
 app.post("/", function(req, res) {
   const itemName = req.body.newItem;
   const listName = req.body.list;
-
+  if(itemName != ""){
     const item = new Item({
       name: itemName
     });
@@ -140,6 +140,15 @@ app.post("/", function(req, res) {
         res.redirect("/"+listName);
       })
     }
+  }else{
+    console.log("Empty task");
+    if(listName === "Today"){
+      res.redirect("/");
+    }else{
+        res.redirect("/"+listName);
+    }
+  }
+
 
 
 });
