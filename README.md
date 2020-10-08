@@ -7,6 +7,7 @@ css, html, js, ejs, node.js, mongoose, express.js,
 Functionality:
 - you can simply add new task using "+" sign,
 - you can delete done task using checkbox,
+- you cad add new list simply using input at the bottom of the site,
 - creating custom list using express routing - add "/" + nameofyourlist to link,
 eg. https://todolist-2sty.herokuapp.com/newlist,
 

@@ -17,6 +17,8 @@ mongoose.connect("mongodb+srv://" + config.getConfig().username + ":" + config.g
   useNewUrlParser: true, useUnifiedTopology: true
 });
 mongoose.set('useFindAndModify', false);
+
+//Mongo Item
 const itemsSchema = new mongoose.Schema({
   name:String
 });
@@ -36,13 +38,17 @@ const item3 = new Item({
 });
 
 const defaultItems = [item1,item2,item3]
+//
 
+//Mongo List
 const listSchema = new mongoose.Schema({
   name: String,
   items:[itemsSchema]
 });
 
 const List = mongoose.model("List", listSchema);
+//
+
 
 Item.find({}, function(err){
   if(err){
@@ -78,6 +84,8 @@ app.get("/", function(req, res) {
   });
 
 });
+
+//Create custom list
 app.get("/:customList", function(req,res){
   const customList = _.capitalize(req.params.customList);
   if(customList != "Favicon.ico"){
@@ -103,6 +111,7 @@ app.get("/:customList", function(req,res){
   }
 });
 
+//Delete item on list
 app.post("/delete", function(req,res){
   const checkedItemId = req.body.checkbox;
   const listName = req.body.listName;
@@ -125,31 +134,38 @@ app.post("/delete", function(req,res){
 app.post("/", function(req, res) {
   const itemName = req.body.newItem;
   const listName = req.body.list;
-  if(itemName != ""){
-    const item = new Item({
-      name: itemName
-    });
+  const customList = req.body.newList;
+  //Create new item
+  if(customList == null){
+    if(itemName != null){
+      const item = new Item({
+        name: itemName
+      });
 
-    if(listName === "Today"){
-      item.save();
-      res.redirect("/");
+      if(listName === "Today"){
+        item.save();
+        res.redirect("/");
+      }else{
+        //Search wanted name of object
+        List.findOne({name:listName}, function(err, foundList){
+          foundList.items.push(item);
+          foundList.save();
+          res.redirect("/"+listName);
+        })
+      }
     }else{
-      List.findOne({name:listName}, function(err, foundList){
-        foundList.items.push(item);
-        foundList.save();
-        res.redirect("/"+listName);
-      })
+      console.log("Empty task");
+      if(listName === "Today"){
+        res.redirect("/");
+      }else{
+          res.redirect("/"+listName);
+      }
     }
+
   }else{
-    console.log("Empty task");
-    if(listName === "Today"){
-      res.redirect("/");
-    }else{
-        res.redirect("/"+listName);
-    }
+    //Create new list by button
+    res.redirect("/" + customList);
   }
-
-
 
 });
 
