@@ -29,13 +29,12 @@ h1 {
   text-align: center;
 }
 
-.item {
+.item, .list {
   min-height: 70px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #F1F1F1;
 }
-
 .item:last-child {
   border-bottom: 0;
 }
@@ -58,7 +57,7 @@ p {
   width: 243px;
 }
 
-form.item {
+form.item form.list {
   text-align: center;
   margin-left: 20px;
 }
