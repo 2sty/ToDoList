@@ -137,7 +137,8 @@ app.post("/", function(req, res) {
   const customList = req.body.newList;
   //Create new item
   if(customList == null){
-    if(itemName != null){
+    if(itemName != ""){
+      console.log(itemName);
       const item = new Item({
         name: itemName
       });
